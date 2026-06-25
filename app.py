@@ -50,6 +50,48 @@ def create():
 
     return render_template('create.html')
 
+
+@app.route('/delete/<int:EmployeeId>', methods=['POST'])
+def delete(EmployeeId):
+    conn = db_conn()
+    cur = conn.cursor()
+
+    cur.execute('DELETE FROM "Employees" WHERE "EmployeeId" = %s', (EmployeeId,))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return redirect(url_for('index'))
+
+@app.route('/update/<int:EmployeeId>', methods=['GET', 'POST'])
+def update(EmployeeId):
+    conn = db_conn()
+    cur = conn.cursor()
+
+    if request.method == 'POST':
+        name = request.form['name']
+        department = request.form['department']
+        salary = request.form['salary']
+
+        cur.execute(
+            'UPDATE "Employees" SET "Name" = %s, "Department" = %s, "Salary" = %s WHERE "EmployeeId" = %s',
+            (name, department, salary, EmployeeId)
+        )
+
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return redirect(url_for('index'))
+
+    cur.execute('SELECT * FROM "Employees" WHERE "EmployeeId" = %s', (EmployeeId,))
+    employee = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    return render_template('update.html', employee=employee)
+
 @app.route('/')
 def home():
     return "Hello, Flask!"

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Employee</title>
+    <title>Edit Employee</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
@@ -30,29 +30,34 @@
                                 <i class="bi bi-house me-1"></i>Employees
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">Add New</li>
+                        <li class="breadcrumb-item active">Edit Employee</li>
                     </ol>
                 </nav>
 
                 <div class="card">
                     <!-- Card Header -->
-                    <div class="card-header-custom card-header-blue">
-                        <h5 class="text-white fw-bold mb-0">
-                            <i class="bi bi-person-plus me-2"></i>Add New Employee
-                        </h5>
-                        <p class="text-white-50 mb-0 small mt-1">Fill in the details below to create a new employee record.</p>
+                    <div class="card-header-custom card-header-orange">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="text-white fw-bold mb-0">
+                                    <i class="bi bi-pencil-square me-2"></i>Edit Employee
+                                </h5>
+                                <p class="text-white-50 mb-0 small mt-1">Update the employee details below.</p>
+                            </div>
+                            <span class="emp-id-badge">#{{ employee[0] }}</span>
+                        </div>
                     </div>
 
                     <!-- Card Body -->
                     <div class="card-body p-4">
-                        <form action="/create" method="POST">
+                        <form action="/update/{{ employee[0] }}" method="POST">
 
                             <div class="mb-4">
                                 <label for="name" class="form-label">Full Name</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                    <input type="text" class="form-control form-control-blue" id="name" name="name"
-                                           placeholder="e.g. Ganesh Kumar" required>
+                                    <input type="text" class="form-control form-control-orange" id="name" name="name"
+                                           value="{{ employee[1] }}" required>
                                 </div>
                             </div>
 
@@ -60,8 +65,8 @@
                                 <label for="department" class="form-label">Department</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-building"></i></span>
-                                    <input type="text" class="form-control form-control-blue" id="department" name="department"
-                                           placeholder="e.g. Engineering" required>
+                                    <input type="text" class="form-control form-control-orange" id="department" name="department"
+                                           value="{{ employee[2] }}" required>
                                 </div>
                             </div>
 
@@ -69,14 +74,14 @@
                                 <label for="salary" class="form-label">Salary (&#8377;)</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-currency-rupee"></i></span>
-                                    <input type="number" class="form-control form-control-blue" id="salary" name="salary"
-                                           placeholder="e.g. 50000" min="0" required>
+                                    <input type="number" class="form-control form-control-orange" id="salary" name="salary"
+                                           value="{{ employee[3] }}" min="0" required>
                                 </div>
                             </div>
 
                             <div class="d-flex gap-2 mt-4">
-                                <button type="submit" class="btn btn-submit-blue flex-grow-1">
-                                    <i class="bi bi-check-circle me-2"></i>Save Employee
+                                <button type="submit" class="btn btn-submit-orange flex-grow-1">
+                                    <i class="bi bi-check-circle me-2"></i>Update Employee
                                 </button>
                                 <a href="{{ url_for('index') }}" class="btn btn-outline-secondary px-4">
                                     <i class="bi bi-arrow-left me-1"></i>Cancel
